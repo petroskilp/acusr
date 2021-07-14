@@ -1,0 +1,196 @@
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{"/assets/vendor/startbootstrap-clean-blog/js/scripts.js" | relative_url }}"></script>
+
+<script src="{{"/assets/scripts.js" | relative_url }}"></script>
+
+{% if page.url contains 'contact' %}
+  <!-- Form Validation -->
+  <script src="{{"/assets/vendor/startbootstrap-clean-blog/js/jqBootstrapValidation.js" | relative_url }}"></script>
+  <!-- Send Form -->
+  <script>
+    $(function () {
+
+      $("#contactForm input,#contactForm textarea").jqBootstrapValidation({
+        preventSubmit: true,
+        submitError: function ($form, event, errors) {
+          // additional error messages or events
+        },
+        submitSuccess: function ($form, event) {
+          event.preventDefault(); // prevent default submit behaviour
+          // get values from FORM
+          var name = $("input#name").val();
+          var email = $("input#email").val();
+          var comments = $("textarea#comments").val();
+          var firstName = name; // For Success/Failure Message
+          // Check for white space in name for Success/Fail message
+          if (firstName.indexOf(' ') >= 0) {
+            firstName = name.split(' ').slice(0, -1).join(' ');
+          }
+          $this = $("#sendMessageButton");
+          $this.prop("disabled", true);
+          //https://docs.google.com/forms/d/e/1FAIpQLSeeJuoVN7C6Is6zyt-fS3Wwt9RZC6AQ51_NaIkXcBKK9gezFQ/viewform?usp=pp_url&entry.582319841=name&entry.2085246190=email&entry.1456197310=comments
+          var formId = '1FAIpQLSeeJuoVN7C6Is6zyt-fS3Wwt9RZC6AQ51_NaIkXcBKK9gezFQ'
+          var url = 'https://docs.google.com/forms/d/e/' + formId + '/formResponse'
+          var data ={
+            "entry.582319841": name,
+            "entry.2085246190": email,
+            "entry.1456197310": comments,
+            "submit": "SUBMIT"
+          }
+          $.ajax({
+            url: url,
+            data: data, //Nifty jquery function that gets all the input data
+            type: 'POST', //tells ajax to post the data to the url
+            dataType: "json",
+            statusCode: { //the status code from the POST request
+              0: function(data) { //0 is when Google gives a CORS error, don't worry it went through
+                // Success message
+                $('#success').html("<div class='alert alert-success'>");
+                $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+                $('#success > .alert-success').append("<strong>Your message has been sent. </strong>");
+                $('#success > .alert-success').append('</div>');
+                //clear all fields
+                $('#contactForm').trigger("reset");
+              },
+              200: function(data) {//200 is a success code. it went through!
+                // Success message
+                $('#success').html("<div class='alert alert-success'>");
+                $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+                $('#success > .alert-success').append("<strong>Your message has been sent. </strong>");
+                $('#success > .alert-success').append('</div>');
+                //clear all fields
+                $('#contactForm').trigger("reset");
+              },
+              403: function(data) {//403 is when something went wrong and the submission didn't go through
+                // Fail message
+                $('#success').html("<div class='alert alert-danger'>");
+                $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+                $('#success > .alert-danger').append($("<strong>").text("Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!"));
+                $('#success > .alert-danger').append('</div>');
+                //clear all fields
+                $('#contactForm').trigger("reset");
+              },
+            },
+            complete: function () {
+              setTimeout(function () {
+                $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+              }, 1000);
+            }
+            
+          });
+          
+        },
+        filter: function () {
+          return $(this).is(":visible");
+        }
+      });
+
+      $("a[data-toggle=\"tab\"]").click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+      });
+    });
+
+    /*When clicking on Full hide fail/success boxes */
+    $('#name').focus(function () {
+      $('#success').html('');
+    });
+  </script>
+{% endif %}
+{% if page.url contains 'colaborate' %}
+  <!-- Form Validation -->
+  <script src="{{"/assets/vendor/startbootstrap-clean-blog/js/jqBootstrapValidation.js" | relative_url }}"></script>
+  <!-- Send Form -->
+  <script>
+    $(function () {
+
+      $("#colaborateForm input,#colaborateForm textarea").jqBootstrapValidation({
+        preventSubmit: true,
+        submitError: function ($form, event, errors) {
+          // additional error messages or events
+        },
+        submitSuccess: function ($form, event) {
+          event.preventDefault(); // prevent default submit behaviour
+          // get values from FORM
+          var name = $("input#name").val();
+          var email = $("input#email").val();
+          var gene_molecule = $("input#gene_molecule").val();
+          var description = $("textarea#description").val();
+          var activity = $("textarea#activity").val();
+          var references = $("textarea#references").val();
+          
+          $this = $("#sendMessageButton");
+          $this.prop("disabled", true);
+          //https://docs.google.com/forms/d/e/1FAIpQLScUB06uuc8wMfg69Z_L39qHDGtHzkK_tyukxvJTEPEy64qd0A/viewform?usp=pp_url&entry.448008776=name&entry.1148602240=email&entry.1131006880=gene&entry.1037379784=desc&entry.1153719253=activity&entry.1091222598=ref
+          var formId = '1FAIpQLScUB06uuc8wMfg69Z_L39qHDGtHzkK_tyukxvJTEPEy64qd0A'
+          var url = 'https://docs.google.com/forms/d/e/' + formId + '/formResponse'
+          var data ={
+            "entry.448008776": name,
+            "entry.1148602240": email,
+            "entry.1131006880": gene_molecule,
+            "entry.1037379784": description,
+            "entry.1153719253": activity,
+            "entry.1091222598": references,
+            "submit": "SUBMIT"
+          }
+          $.ajax({
+            url: url,
+            data: data, //Nifty jquery function that gets all the input data
+            type: 'POST', //tells ajax to post the data to the url
+            dataType: "json",
+            statusCode: { //the status code from the POST request
+              0: function(data) { //0 is when Google gives a CORS error, don't worry it went through
+                // Success message
+                $('#success').html("<div class='alert alert-success'>");
+                $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+                $('#success > .alert-success').append("<strong>Your message has been sent. </strong>");
+                $('#success > .alert-success').append('</div>');
+                //clear all fields
+                $('#colaborateForm').trigger("reset");
+              },
+              200: function(data) {//200 is a success code. it went through!
+                // Success message
+                $('#success').html("<div class='alert alert-success'>");
+                $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+                $('#success > .alert-success').append("<strong>Your message has been sent. </strong>");
+                $('#success > .alert-success').append('</div>');
+                //clear all fields
+                $('#colaborateForm').trigger("reset");
+              },
+              403: function(data) {//403 is when something went wrong and the submission didn't go through
+                // Fail message
+                $('#success').html("<div class='alert alert-danger'>");
+                $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+                $('#success > .alert-danger').append($("<strong>").text("Sorry " + name + ", it seems that my mail server is not responding. Please try again later!"));
+                $('#success > .alert-danger').append('</div>');
+                //clear all fields
+                $('#colaborateForm').trigger("reset");
+              },
+            },
+            complete: function () {
+              setTimeout(function () {
+                $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+              }, 1000);
+            }
+            
+          });
+          
+        },
+        filter: function () {
+          return $(this).is(":visible");
+        }
+      });
+
+      $("a[data-toggle=\"tab\"]").click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+      });
+    });
+
+    /*When clicking on Full hide fail/success boxes */
+    $('#name').focus(function () {
+      $('#success').html('');
+    });
+  </script>
+{% endif %}

@@ -1,0 +1,177 @@
+---
+layout: atlas
+title: Atlas
+description: Atlas of Curated Splicing Regulators in Humans.
+background: "/img/dna.png"
+---
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="geneModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="geneSymbol"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="geneSymbol">Symbol</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <img class="card-img-top" id='gene-img' src="img/string.png" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">Gene name</h5>
+            <p class="card-text" id="gene-name"></p>
+            <h5 class="card-title">Ensembl code</h5>
+            <p class="card-text" id="gene-ens"></p>
+            <h5 class="card-title">Gene description on splicing</h5>
+            <p class="card-text" id="gene-desc"></p>
+            <h5 class="card-title">References</h5>
+            <p class="card-text">
+              <small class="text-muted" id="gene-references"></small>
+            </p>
+            <div class="row">
+              <div class="col-lg-3 col-md-4">
+                <a href="#" id="gene-ncbi"><img class="img-thumbnail" src="img/ncbi.png" /></a>
+              </div>
+              <div class="col-lg-3 col-md-4">
+                <a href="#" id="gene-uniprot"><img class="img-thumbnail" src="img/uniprot.png"
+                /></a>
+              </div>
+              <div class="col-lg-3 col-md-4">
+                <a href="#" id="gene-genecards"><img class="img-thumbnail" src="img/genecards.png"
+                /></a>
+              </div>
+              <div class="col-lg-3 col-md-4">
+                <a href="#" id="gene-string"><img class="img-thumbnail" src="img/string.png"
+                /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="input-group rounded">
+  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+    aria-describedby="search-addon"  id="textSearch" onkeyup="geneSearch()" onsearch="geneSearch()"/>
+  <span class="input-group-text border-0" id="search-addon">
+    <i class="fas fa-search"></i>
+  </span>
+</div>
+<table id="geneTable" class="table">
+  <tr class="header">
+    <th style="width: 10%">Symbol</th>
+    <th style="width: 30%">Name</th>
+    <th style="width: 10%">Links</th>
+    <th style="width: 50%">string-db</th>
+  </tr>
+
+  {% for row in site.data.Atlas %}
+  {% assign a = row['string-db-link'] | split: '/network/' %}
+  <tr>
+    <td>
+      <a
+        href="#"
+        data-toggle="modal"
+        data-target="#geneModal"
+        data-symbol="{{ row['gene-symbol'] }}"
+        data-name="{{ row['gene-name'] }}"
+        data-ens="{{ row['ensembl-code'] }}"
+        data-desc="{{ row['gene-description'] }}"
+        data-ref="{{ row['splicing-references'] }}"
+        data-ncbi="{{ row['ncbi-link'] }}"
+        data-uniprot="{{ row['uniprot-link'] }}"
+        data-genecards="{{ row['genecards-link'] }}"
+        data-string="{{ row['string-db-link'] }}"
+        {% if a[1] != blank %}
+        data-stringimg="https://string-db.org/api/svg/network?identifiers={{ a[1] }}"
+        {% else %}
+        data-stringimg="img/string.png"
+        {% endif %}
+      >
+        {{ row["gene-symbol"] }}
+      </a>
+    </td>
+    <td>{{ row["gene-name"] }}</td>
+    <td>
+      <a href="{{ row['ncbi-link'] }}"
+        ><img class="img-thumbnail" src="img/ncbi.png"
+      /></a>
+      <a href="{{ row['uniprot-link'] }}"
+        ><img class="img-thumbnail" src="img/uniprot.png"
+      /></a>
+      <a href="{{ row['genecards-link'] }}"
+        ><img class="img-thumbnail" src="img/genecards.png"
+      /></a>
+    </td>
+    <td>
+      
+      {% if a[1] != blank %}
+      <a href="{{ row['string-db-link'] }}"
+        ><div class="img-fluid" style="overflow: hidden;">
+          <img
+            style="
+              width: 200%;
+              height: auto;
+              margin-left: -50%;
+              margin-right: -50%;
+              object-fit: cover;
+            "
+            src="https://string-db.org/api/svg/network?identifiers={{ a[1] }}"
+          /></div
+      ></a>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<script>
+  function geneSearch() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("textSearch");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("geneTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      
+      td1 = tr[i].getElementsByTagName("td")[0];
+      td2 = tr[i].getElementsByTagName("td")[1];
+      if(td1 || td2){
+        tr[i].style.display = "none";
+      }
+      if (td1) {
+        txtValue = td1.textContent || td1.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } 
+      }
+      if (td2) {
+        txtValue = td2.textContent || td2.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } 
+      }
+    }
+  }
+</script>
