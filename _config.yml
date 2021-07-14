@@ -2,8 +2,8 @@ title:              Atlas
 email:
 description:        Regulation of gene transcription in humans by splicing factors
 author:             Herai's LAB
-baseurl:            "/sites_teste"
-url:                "https://codelp.github.io"
+baseurl:            "/atlas"
+url:                "https://pucpr-bioinformatics.github.io"
 
 # Social Profiles
 twitter_username:
