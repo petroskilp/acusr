@@ -4,3 +4,9 @@
 
 @import "styles";
 
+.popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+}
+.popover img{
+    max-width: 500px; /* Max Width of the popover (depending on the container!) */
+}

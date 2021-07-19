@@ -29,7 +29,7 @@ background: "/img/dna.png"
       </div>
       <div class="modal-body">
         <div class="card">
-          <img class="card-img-top" id='gene-img' src="img/string.png" alt="Card image cap" />
+          
           <div class="card-body">
             <h5 class="card-title">Gene name</h5>
             <p class="card-text" id="gene-name"></p>
@@ -37,6 +37,8 @@ background: "/img/dna.png"
             <p class="card-text" id="gene-ens"></p>
             <h5 class="card-title">Gene description on splicing</h5>
             <p class="card-text" id="gene-desc"></p>
+            <h5 class="card-title">String</h5>
+            <img class="card-img-top" id='gene-img' src="img/string.png" alt="Card image cap" />
             <h5 class="card-title">References</h5>
             <p class="card-text">
               <small class="text-muted" id="gene-references"></small>
@@ -76,20 +78,29 @@ background: "/img/dna.png"
     <i class="fas fa-search"></i>
   </span>
 </div>
-<table id="geneTable" class="table">
+<div class="table-responsive-sm">
+<table id="geneTable" class="table table-hover">
   <tr class="header">
-    <th style="width: 10%">Symbol</th>
-    <th style="width: 45%">Name</th>
-    <th style="width: 15%">Links</th>
-    <th style="width: 30%">string-db</th>
+    <th scope="col">Symbol</th>
+    <th scope="col">Name</th>
+    <th scope="col">Details</th>
+    <th scope="col">Links</th>
+    
   </tr>
 
   {% for row in site.data.Atlas %}
   {% assign a = row['string-db-link'] | split: '/network/' %}
+  {% assign ncbisplit = row['ncbi-link'] | split: '&Term=' %}
+  {% if ncbisplit[1] == blank %}
+  {% assign ncbisplit = row['ncbi-link'] | split: '/gene/' %}
+  {% endif %}
   <tr>
+    <td scope="row">{{ row["gene-symbol"] }}</td>
+    <td>{{ row["gene-name"] }}</td>
     <td>
       <a
-        class="btn-link"
+      class="btn btn-primary"
+      role="button"
         href="#"
         data-toggle="modal"
         data-target="#geneModal"
@@ -102,48 +113,52 @@ background: "/img/dna.png"
         data-uniprot="{{ row['uniprot-link'] }}"
         data-genecards="{{ row['genecards-link'] }}"
         data-string="{{ row['string-db-link'] }}"
-        {% if a[1] != blank %}
         data-stringimg="https://string-db.org/api/svg/network?identifiers={{ a[1] }}"
-        {% else %}
-        data-stringimg="img/string.png"
-        {% endif %}
       >
-        {{ row["gene-symbol"] }}
+      <i class="fas fa-plus fa-inverse"></i>
+        Details
       </a>
     </td>
-    <td>{{ row["gene-name"] }}</td>
+    
     <td>
+      <div class="row">
+        <div class="col-lg-6 col-md-12 text-center">
       <a href="{{ row['ncbi-link'] }}"
+      {% if ncbisplit[1] != blank %}
+      data-toggle="popover" data-trigger="hover" title="{{ row['gene-symbol'] }}" data-content="<img src='https://www.ncbi.nlm.nih.gov/gutils/geneneighb.fcgi?geneid={{ ncbisplit[1] }}' />"
+      {% endif %}
+      
         ><img class="img-thumbnail" src="img/ncbi.png"
       /></a>
+      </div>
+      <div class="col-lg-6 col-md-12 text-center">
       <a href="{{ row['uniprot-link'] }}"
         ><img class="img-thumbnail" src="img/uniprot.png"
       /></a>
+    </div>
+    <div class="col-lg-6 col-md-12 text-center">
       <a href="{{ row['genecards-link'] }}"
         ><img class="img-thumbnail" src="img/genecards.png"
       /></a>
-    </td>
-    <td>
-      
-      {% if a[1] != blank %}
+    </div>
+    <div class="col-lg-6 col-md-12 text-center">
+      {% if row['string-db-link'] } != blank %}
       <a href="{{ row['string-db-link'] }}"
-        ><div class="img-fluid" style="overflow: hidden;">
-          <img
-            style="
-              width: 200%;
-              height: auto;
-              margin-left: -50%;
-              margin-right: -50%;
-              object-fit: cover;
-            "
-            src="https://string-db.org/api/svg/network?identifiers={{ a[1] }}"
-          /></div
-      ></a>
+      {% if a[1] != blank %}
+      data-toggle="popover" data-trigger="hover" title="{{ row['gene-symbol'] }}" data-content="<img class='string-db' src='https://string-db.org/api/svg/network?identifiers={{ a[1] }}' />"
       {% endif %}
+      
+        ><img class="img-thumbnail" src="img/string.png"
+      /></a>
+      {% endif %}
+    </div>
+  </div>
     </td>
+    
   </tr>
   {% endfor %}
 </table>
+</div>
 <script>
   function geneSearch() {
     // Declare variables

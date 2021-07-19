@@ -1,5 +1,10 @@
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="tooltip"]').tooltip({
+    html: true
+  });
+  $('[data-toggle="popover"]').popover({
+    html: true
+  })
   $("#geneModal").on("show.bs.modal", function (e) {
     var symbol = $(e.relatedTarget).data("symbol");
     var name = $(e.relatedTarget).data("name");
