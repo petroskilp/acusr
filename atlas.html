@@ -142,7 +142,7 @@ background: "/img/dna.png"
       /></a>
     </div>
     <div class="col-lg-6 col-md-12 text-center">
-      {% if row['string-db-link'] } != blank %}
+      {% if row['string-db-link']  != blank %}
       <a href="{{ row['string-db-link'] }}"
       {% if a[1] != blank %}
       data-toggle="popover" data-trigger="hover" title="{{ row['gene-symbol'] }}" data-content="<img class='string-db' src='https://string-db.org/api/svg/network?identifiers={{ a[1] }}' />"
