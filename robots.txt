@@ -1,1 +1,1 @@
-Sitemap: https://pucpr-bioinformatics.github.io/atlas/sitemap.xml
+Sitemap: https://petroskilp.github.io/acusr/sitemap.xml
