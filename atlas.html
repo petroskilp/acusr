@@ -39,6 +39,10 @@ background: "/img/dna.png"
             <p class="card-text" id="gene-desc"></p>
             <h5 class="card-title">String</h5>
             <img class="card-img-top" id='gene-img' src="img/string.png" alt="Card image cap" />
+            <h5 class="card-title">Expression values</h5>
+            <div id="container" style="width: 100%;">
+              <canvas id="canvas"></canvas>
+            </div>
             <h5 class="card-title">References</h5>
             <p class="card-text">
               <small class="text-muted" id="gene-references"></small>
@@ -107,6 +111,7 @@ background: "/img/dna.png"
         data-symbol="{{ row['gene-symbol'] }}"
         data-name="{{ row['gene-name'] }}"
         data-ens="{{ row['ensembl-code'] }}"
+        data-gtexensversion="{{ row['gtex-ens-version'] }}"
         data-desc="{{ row['gene-description'] }}"
         data-ref="{{ row['splicing-references'] }}"
         data-ncbi="{{ row['ncbi-link'] }}"

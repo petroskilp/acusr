@@ -16,6 +16,7 @@ $(function () {
     var genecards = $(e.relatedTarget).data("genecards");
     var string = $(e.relatedTarget).data("string");
     var stringimg = $(e.relatedTarget).data("stringimg");
+    getDataset($(e.relatedTarget).data("ens"), $(e.relatedTarget).data("gtexensversion"));
 
     var ref = refs.split("\n");
 
