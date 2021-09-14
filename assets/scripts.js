@@ -9,6 +9,7 @@ $(function () {
     var symbol = $(e.relatedTarget).data("symbol");
     var name = $(e.relatedTarget).data("name");
     var ens = $(e.relatedTarget).data("ens");
+    var gtexensversion = $(e.relatedTarget).data("gtexensversion");
     var desc = $(e.relatedTarget).data("desc");
     var refs = $(e.relatedTarget).data("ref");
     var ncbi = $(e.relatedTarget).data("ncbi");
@@ -16,7 +17,11 @@ $(function () {
     var genecards = $(e.relatedTarget).data("genecards");
     var string = $(e.relatedTarget).data("string");
     var stringimg = $(e.relatedTarget).data("stringimg");
-    getDataset($(e.relatedTarget).data("ens"), $(e.relatedTarget).data("gtexensversion"));
+    //getDataset(ens, gtexensversion);
+    $("#vizRoot").empty();
+    TranscriptBrowser.render("exon", symbol, "vizRoot");
+    $('#boxplot-root').empty();
+    GeneExpressionBoxplot.launch('boxplot-root', ens+"."+gtexensversion);
 
     var ref = refs.split("\n");
 
