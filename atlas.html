@@ -4,10 +4,13 @@ title: ACuSR
 description: Atlas of Curated Splicing Regulators in Humans.
 background: "/img/dna.png"
 ---
-
+<link rel="stylesheet" href="{{"/assets/vendor/gtexviz/css/dendrogram.css" | relative_url }}">
+<link rel="stylesheet" href="{{"/assets/vendor/gtexviz/css/expressMap.css" | relative_url }}">
+<link rel="stylesheet" href="{{"/assets/vendor/gtexviz/css/isoform.css" | relative_url }}">
+<link rel="stylesheet" href="{{"/assets/vendor/gtexviz/css/boxplot.css" | relative_url }}">
 <!-- Modal -->
 <div
-  class="modal fade"
+  class="modal modal-fullscreen-xl fade"
   id="geneModal"
   tabindex="-1"
   role="dialog"
@@ -30,7 +33,7 @@ background: "/img/dna.png"
       <div class="modal-body">
         <div class="card">
           
-          <div class="card-body">
+          <div class="card-body container-fluid">
             <h5 class="card-title">Gene name</h5>
             <p class="card-text" id="gene-name"></p>
             <h5 class="card-title">Ensembl code</h5>
@@ -38,11 +41,16 @@ background: "/img/dna.png"
             <h5 class="card-title">Gene description on splicing</h5>
             <p class="card-text" id="gene-desc"></p>
             <h5 class="card-title">String</h5>
-            <img class="card-img-top" id='gene-img' src="img/string.png" alt="Card image cap" />
-            <h5 class="card-title">Expression values</h5>
-            <div id="container" style="width: 100%;">
-              <canvas id="canvas"></canvas>
+            <div class=" d-flex justify-content-center">
+              <img class="card-img-top stringimg" id='gene-img' src="img/string.png" alt="Card image cap" />
             </div>
+            <h5 class="card-title">Expression values</h5>
+            <!--<div id="container" style="width: 100%;">
+              <canvas id="canvas"></canvas>
+            </div>-->
+            <div class="row d-flex justify-content-center" id="boxplot-root" style="width:100%;"></div>
+            <h5 class="card-title">Exon expression</h5>
+            <div id="vizRoot" style="width:100%;"></div> <!-- the heatmap/gene model Div -->
             <h5 class="card-title">References</h5>
             <p class="card-text">
               <small class="text-muted" id="gene-references"></small>
