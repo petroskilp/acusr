@@ -83,9 +83,13 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 mx-auto">
 
-        <!-- Modal -->
+        <link rel="stylesheet" href="/acusr/assets/vendor/gtexviz/css/dendrogram.css">
+<link rel="stylesheet" href="/acusr/assets/vendor/gtexviz/css/expressMap.css">
+<link rel="stylesheet" href="/acusr/assets/vendor/gtexviz/css/isoform.css">
+<link rel="stylesheet" href="/acusr/assets/vendor/gtexviz/css/boxplot.css">
+<!-- Modal -->
 <div
-  class="modal fade"
+  class="modal modal-fullscreen-xl fade"
   id="geneModal"
   tabindex="-1"
   role="dialog"
@@ -108,7 +112,7 @@
       <div class="modal-body">
         <div class="card">
           
-          <div class="card-body">
+          <div class="card-body container-fluid">
             <h5 class="card-title">Gene name</h5>
             <p class="card-text" id="gene-name"></p>
             <h5 class="card-title">Ensembl code</h5>
@@ -116,11 +120,16 @@
             <h5 class="card-title">Gene description on splicing</h5>
             <p class="card-text" id="gene-desc"></p>
             <h5 class="card-title">String</h5>
-            <img class="card-img-top" id='gene-img' src="img/string.png" alt="Card image cap" />
-            <h5 class="card-title">Expression values</h5>
-            <div id="container" style="width: 100%;">
-              <canvas id="canvas"></canvas>
+            <div class=" d-flex justify-content-center">
+              <img class="card-img-top stringimg" id='gene-img' src="img/string.png" alt="Card image cap" />
             </div>
+            <h5 class="card-title">Expression values</h5>
+            <!--<div id="container" style="width: 100%;">
+              <canvas id="canvas"></canvas>
+            </div>-->
+            <div class="row d-flex justify-content-center" id="boxplot-root" style="width:100%;"></div>
+            <h5 class="card-title">Exon expression</h5>
+            <div id="vizRoot" style="width:100%;"></div> <!-- the heatmap/gene model Div -->
             <h5 class="card-title">References</h5>
             <p class="card-text">
               <small class="text-muted" id="gene-references"></small>
@@ -10420,6 +10429,10 @@ Gromak N, Matlin AJ, Cooper TA, Smith CWJ. Antagonistic regulation of α-actinin
 <script src='https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js'></script>
 <script src='https://unpkg.com/chartjs-chart-box-and-violin-plot@2/build/Chart.BoxPlot.js'></script>
 <script src="/acusr/assets/boxplot.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/acusr/assets/vendor/gtexviz/js/transcript-browser.bundle.min.js"></script>
+<script src="/acusr/assets/vendor/gtexviz/js/gene-expression-boxplot.bundle.min.js"></script>
+<script src="/acusr/assets/vendor/gtexviz/js/gene-expression-violin-plot.bundle.min.js"></script>
 
 
 
