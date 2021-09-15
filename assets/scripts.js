@@ -19,7 +19,9 @@ $(function () {
     var stringimg = $(e.relatedTarget).data("stringimg");
     //getDataset(ens, gtexensversion);
     $("#vizRoot").empty();
+    $("#vizRootiso").empty();
     TranscriptBrowser.render("exon", symbol, "vizRoot");
+    TranscriptBrowser.render("isoformTransposed", symbol, "vizRootiso");
     $('#boxplot-root').empty();
     GeneExpressionBoxplot.launch('boxplot-root', ens+"."+gtexensversion);
 
